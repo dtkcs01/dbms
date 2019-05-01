@@ -1,4 +1,4 @@
-var yearStart = 1990;
+var yearStart = 1955;
 var yearEnd = new Date().getFullYear();
 var yearOptions = "";
 for(var year = yearStart ; year <= yearEnd; year++){

@@ -55,16 +55,33 @@ router.get('/list',isAuthenticated,(req,res)=>{
 
 router.get('/feedbacks',isAuthenticated,(req,res)=>{
   fetchFeedbacks(req.query).then((data)=>{
-    var renderData = {avg : {},max : {},min : {}};
-    renderData.avg.RA = _.meanBy(data,'RATING_A');
-    renderData.avg.RB = _.meanBy(data,'RATING_B');
-    renderData.avg.RC = _.meanBy(data,'RATING_C');
-    renderData.max.RA = _.maxBy(data,'RATING_A').RATING_A;
-    renderData.max.RB = _.maxBy(data,'RATING_B').RATING_B;
-    renderData.max.RC = _.maxBy(data,'RATING_C').RATING_C;
-    renderData.min.RB = _.minBy(data,'RATING_B').RATING_A;
-    renderData.min.RA = _.minBy(data,'RATING_A').RATING_B;
-    renderData.min.RC = _.minBy(data,'RATING_C').RATING_C;
+    var renderData = {
+      avg : {
+        RA : 0,
+        RB : 0,
+        RC : 0
+      },
+      max : {
+        RA : 0,
+        RB : 0,
+        RC : 0
+      },
+      min : {
+        RA : 0,
+        RB : 0,
+        RC : 0
+      }};
+    if(data.length > 0){
+      renderData.avg.RA = _.meanBy(data,'RATING_A');
+      renderData.avg.RB = _.meanBy(data,'RATING_B');
+      renderData.avg.RC = _.meanBy(data,'RATING_C');
+      renderData.max.RA = _.maxBy(data,'RATING_A').RATING_A;
+      renderData.max.RB = _.maxBy(data,'RATING_B').RATING_B;
+      renderData.max.RC = _.maxBy(data,'RATING_C').RATING_C;
+      renderData.min.RB = _.minBy(data,'RATING_B').RATING_A;
+      renderData.min.RA = _.minBy(data,'RATING_A').RATING_B;
+      renderData.min.RC = _.minBy(data,'RATING_C').RATING_C;
+    }
     console.log(renderData);
     if('TID' in req.user){
         mapCourse([req.user]).then((courseData)=>{
